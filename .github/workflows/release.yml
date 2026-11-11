@@ -1,0 +1,35 @@
+name: release
+
+# Релиз делается тегом, совпадающим с version в manifest.json:
+#   git tag 2.1.0 && git push origin 2.1.0
+on:
+  push:
+    tags: ['[0-9]*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Тег совпадает с версией в manifest.json
+        run: |
+          v=$(python -c "import json;print(json.load(open('custom_components/bolid/manifest.json'))['version'])")
+          [ "$v" = "$GITHUB_REF_NAME" ] || { echo "tag $GITHUB_REF_NAME != manifest $v"; exit 1; }
+      - name: Копия библиотеки в интеграции идентична корневой
+        run: cmp c2000pp.py custom_components/bolid/c2000pp.py
+      - name: Тесты
+        run: python -m unittest -v test_c2000pp
+      - name: Release notes из CHANGELOG.md
+        run: |
+          awk -v v="$GITHUB_REF_NAME" '$0 ~ "^## "v"([ ]|$)" {f=1; next} /^## / {f=0} f' CHANGELOG.md > release_notes.md
+          [ -s release_notes.md ] || echo "Release $GITHUB_REF_NAME" > release_notes.md
+      - name: Создать GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file release_notes.md
