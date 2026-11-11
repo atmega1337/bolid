@@ -1,0 +1,64 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "S2000-PP via S2000-Ethernet",
+        "description": "IP and UDP port of the S2000-Ethernet converter, zones to poll and exchange parameters.",
+        "data": {
+          "ip_address": "S2000-Ethernet IP",
+          "port": "UDP port",
+          "slave_id": "S2000-PP Modbus address",
+          "zones": "Zones (e.g. 1-20, 25)",
+          "poll_interval": "Full poll period, s",
+          "stale_timeout": "Data staleness timeout, s",
+          "group_size": "Zones per request",
+          "use_events": "Read the PP event journal",
+          "allow_control": "Create arm/disarm switches"
+        },
+        "data_description": {
+          "poll_interval": "Minimum 1 s. A cycle over N zones takes about N/group x 0.08 s – keep the period well above that.",
+          "stale_timeout": "A zone not updated for longer than this becomes unavailable. Must be GREATER than the poll period (>= 3x recommended).",
+          "group_size": "Adjacent zones are read in one request. 8 is safe; larger is faster with 512 zones – verify with bench_c2000pp.py.",
+          "use_events": "Fast updates and bolid_event events on the HA bus. Reading the journal is DESTRUCTIVE: enable in one place only (see readme).",
+          "allow_control": "Creates (disabled by default) 'Zone N arming' switches."
+        }
+      }
+    },
+    "error": {
+      "invalid_zones": "Invalid zone list",
+      "stale_le_poll": "Staleness timeout must be greater than the poll period"
+    },
+    "abort": {
+      "already_configured": "Already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "S2000-PP options",
+        "data": {
+          "ip_address": "S2000-Ethernet IP",
+          "port": "UDP port",
+          "slave_id": "S2000-PP Modbus address",
+          "zones": "Zones (e.g. 1-20, 25)",
+          "poll_interval": "Full poll period, s",
+          "stale_timeout": "Data staleness timeout, s",
+          "group_size": "Zones per request",
+          "use_events": "Read the PP event journal",
+          "allow_control": "Create arm/disarm switches"
+        },
+        "data_description": {
+          "poll_interval": "Minimum 1 s. A cycle over N zones takes about N/group x 0.08 s – keep the period well above that.",
+          "stale_timeout": "A zone not updated for longer than this becomes unavailable. Must be GREATER than the poll period (>= 3x recommended).",
+          "group_size": "Adjacent zones are read in one request. 8 is safe; larger is faster with 512 zones – verify with bench_c2000pp.py.",
+          "use_events": "Fast updates and bolid_event events on the HA bus. Reading the journal is DESTRUCTIVE: enable in one place only (see readme).",
+          "allow_control": "Creates (disabled by default) 'Zone N arming' switches."
+        }
+      }
+    },
+    "error": {
+      "invalid_zones": "Invalid zone list",
+      "stale_le_poll": "Staleness timeout must be greater than the poll period"
+    }
+  }
+}
