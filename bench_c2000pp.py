@@ -16,8 +16,8 @@
   switch   переключение шлейфа: команда, затем ~10 с таймлайн состояний; 2 цикла «снять/взять»
 
 Примеры:
-  python bench_c2000pp.py 192.168.1.2 --zones 1-16
-  python bench_c2000pp.py 192.168.1.2 --zones 1-16 --phases switch --allow-write --test-zone 1
+  python bench_c2000pp.py 192.168.1.50 --zones 1-16
+  python bench_c2000pp.py 192.168.1.50 --zones 1-16 --phases switch --allow-write --test-zone 1
   python bench_c2000pp.py --sim            # самопроверка на встроенном эмуляторе, без железа
 """
 from __future__ import annotations

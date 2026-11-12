@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """pcap_decode.py – разбор захвата трафика С2000-Ethernet (tcpdump/Wireshark, классический .pcap).
 
-    tcpdump -i any host 172.16.20.29 -s 0 -w /tmp/capture.pcap
+    tcpdump -i any host 192.168.1.50 -s 0 -w /tmp/capture.pcap
     python pcap_decode.py capture.pcap                 # все потоки
-    python pcap_decode.py capture.pcap --to 172.16.10.80 --from 172.16.20.29
+    python pcap_decode.py capture.pcap --to 192.168.1.10 --from 192.168.1.50
 
 Понимает Ethernet (DLT 1), Linux cooked SLL (113) и SLL2 (276, это `-i any` в новых tcpdump).
 `-i any` дублирует каждый кадр на нескольких интерфейсах – дубликаты (одинаковые адреса и данные
